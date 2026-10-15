@@ -29,7 +29,7 @@ const Input = forwardRef<HTMLInputElement, IProps>(
         <label
           htmlFor={inputId}
           className={clsx(
-            "absolute top-1/2 left-[10px] bg-app-bg transition-base text-normal -translate-y-1/2 pointer-events-none peer-focus:top-0 peer-not-placeholder-shown:top-0 peer-disabled:opacity-50",
+            "absolute top-1/2 left-[10px] bg-app-bg transition-base text-normal text-cta-color -translate-y-1/2 pointer-events-none peer-focus:top-0 peer-not-placeholder-shown:top-0 peer-disabled:opacity-50",
             {
               ["text-error-text"]: isError,
             },
