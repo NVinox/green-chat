@@ -1,3 +1,3 @@
-import { IconLoader } from "@/shared/icons/ui/Icons";
+import { IconLoader, IconCancel, IconDone } from "@/shared/icons/ui/Icons";
 
-export { IconLoader };
+export { IconLoader, IconCancel, IconDone };

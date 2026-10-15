@@ -16,7 +16,7 @@ const Input = forwardRef<HTMLInputElement, IProps>(
         <input
           id={inputId}
           ref={ref}
-          placeholder=" "
+          placeholder=""
           className={clsx(
             "peer transition-base w-full border border-cta-color text-normal rounded-md px-[10px] py-[5px] focus:outline-none focus:ring-2 focus:ring-cta-color disabled:pointer-events-none disabled:opacity-50 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
             {
@@ -29,7 +29,7 @@ const Input = forwardRef<HTMLInputElement, IProps>(
         <label
           htmlFor={inputId}
           className={clsx(
-            "absolute top-1/2 left-[10px] bg-app-bg transition-base text-normal text-cta-color -translate-y-1/2 pointer-events-none peer-focus:top-0 peer-not-placeholder-shown:top-0 peer-disabled:opacity-50",
+            "absolute top-[17px] left-[10px] bg-card-bg transition-base text-normal text-cta-color -translate-y-1/2 pointer-events-none peer-focus:top-0 peer-not-placeholder-shown:top-0 peer-disabled:opacity-50",
             {
               ["text-error-text"]: isError,
             },

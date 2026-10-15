@@ -14,6 +14,7 @@
 
   --cta-color: #229ed9;
   --error: #dc2626;
+  --success: #1ab80b;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -31,6 +32,7 @@
 
     --cta-color: #229ed9;
     --error: #dc2626;
+    --success: #1ab80b;
   }
 }
 
@@ -40,6 +42,7 @@
 
   --color-text-main: var(--text-main);
   --color-error-text: var(--error);
+  --color-success-text: var(--success);
 
   --color-main-border: var(--border-main);
   --color-error-border: var(--error);
