@@ -3,17 +3,20 @@
 :root {
   --site-bg: #e6e6e6;
   --text-main: #181818;
+  --border-main: #505050;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --site-bg: #181818;
-    --text-main: #e6e6e6;
+    --text-main: #eeeeee;
+    --border-main: #424242;
   }
 }
 
 @theme inline {
   --color-text-main: var(--text-main);
+  --color-main-border: var(--border-main);
 }
 
 body {

@@ -6,7 +6,7 @@ function App() {
   return (
     <>
       <Header />
-      <main className="flex font-sans grow">
+      <main className="flex font-sans grow text-text-main">
         <Chats />
         <Messages />
       </main>
