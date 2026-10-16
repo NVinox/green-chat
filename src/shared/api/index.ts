@@ -1,3 +1,3 @@
-import apiInstance from "@/shared/api/instance";
+import { publicApiInstance, privateApiInstance } from "@/shared/api/instance";
 
-export { apiInstance };
+export { publicApiInstance, privateApiInstance };

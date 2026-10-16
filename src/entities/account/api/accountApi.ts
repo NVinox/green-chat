@@ -1,4 +1,4 @@
-import { apiInstance } from "@/shared/api";
+import { publicApiInstance } from "@/shared/api";
 import type {
   TAccountCredentials,
   TAccountSettingsResponse,
@@ -9,7 +9,7 @@ export class AccountAPI {
   static async getSettings(
     accountCredentials: TAccountCredentials,
   ): Promise<AxiosResponse<TAccountSettingsResponse>> {
-    return await apiInstance.get<TAccountSettingsResponse>(
+    return await publicApiInstance.get<TAccountSettingsResponse>(
       `/waInstance${accountCredentials.idInstance}/getSettings/${accountCredentials.apiTokenInstance}`,
     );
   }

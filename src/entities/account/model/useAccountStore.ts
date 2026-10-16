@@ -6,6 +6,7 @@ import {
   type IAccountCredentialsErrorResponse,
   AccountCredentialsSchema,
   AccountAPI,
+  type TAccountSettingsResponse,
 } from "@/entities/account";
 
 import { useToastStore } from "@/shared/toast";
@@ -22,7 +23,9 @@ interface IAccountStore {
   getApiTokenInstance: () => string;
   getAccountErrors: () => IAccountCredentialsErrorResponse;
 
-  getSettings: (accountCredentials: TAccountCredentials) => Promise<void>;
+  getSettings: (
+    accountCredentials: TAccountCredentials,
+  ) => Promise<TAccountSettingsResponse | undefined>;
 
   clear: () => void;
 }
@@ -59,7 +62,9 @@ const useAccountStore = create<IAccountStore>((set, get) => ({
     return errors ? errors : {};
   },
 
-  async getSettings(accountCredentials: TAccountCredentials): Promise<void> {
+  async getSettings(
+    accountCredentials: TAccountCredentials,
+  ): Promise<TAccountSettingsResponse | undefined> {
     const result = AccountCredentialsSchema.safeParse(accountCredentials);
 
     if (!result.success) {
@@ -76,11 +81,12 @@ const useAccountStore = create<IAccountStore>((set, get) => ({
     }
 
     try {
-      const { data } = await AccountAPI.getSettings(accountCredentials);
+      const data = await AccountAPI.getSettings(accountCredentials);
 
       useToastStore.getState().showSuccess();
-      get().clear();
+      return data.data;
     } catch (err: unknown) {
+      console.log(err);
       useToastStore.getState().showError();
     }
   },

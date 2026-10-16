@@ -1,12 +1,23 @@
+import { useNavigate } from "react-router-dom";
 import { useTransition, type ChangeEvent } from "react";
+import Cookies from "js-cookie";
 
 import { useAccountStore, type TAccountCredentials } from "@/entities/account";
+
 import { Button } from "@/shared/button";
 import { Form } from "@/shared/form";
 import { Input } from "@/shared/input";
 import { Title } from "@/shared/title";
 
+import {
+  API_TOKEN_INSTANCE_KEY,
+  CREDETIALS_MAX_AGE,
+  HOME_ROUTE,
+  ID_INSTANCE_KEY,
+} from "@/shared/constants";
+
 export default function Auth() {
+  const navigate = useNavigate();
   const [isPending, startTransition] = useTransition();
   const {
     setApiTokenInstance,
@@ -16,6 +27,7 @@ export default function Auth() {
     getApiTokenInstance,
     getSettings,
     getAccountErrors,
+    clear,
   } = useAccountStore();
 
   function login(): void {
@@ -25,7 +37,20 @@ export default function Auth() {
     };
 
     startTransition(async () => {
-      await getSettings(accountCredentials);
+      const data = await getSettings(accountCredentials);
+
+      if (data) {
+        Cookies.set(ID_INSTANCE_KEY, accountCredentials.idInstance.toString(), {
+          expires: CREDETIALS_MAX_AGE,
+        });
+        Cookies.set(
+          API_TOKEN_INSTANCE_KEY,
+          accountCredentials.apiTokenInstance,
+          { expires: CREDETIALS_MAX_AGE },
+        );
+        clear();
+        navigate(HOME_ROUTE);
+      }
     });
   }
 
