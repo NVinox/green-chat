@@ -1,44 +1,76 @@
 import { useEffect, useTransition } from "react";
 import {
   useServicesStore,
+  type TChat,
   type TChatHistoryRequest,
 } from "@/entities/services";
 
+import { IconLoader } from "@/shared/icons";
+import clsx from "clsx";
+
 export default function Chats() {
-  const [, startTransition] = useTransition();
-  const [, startSelectChat] = useTransition();
-  const { fetchChats, fetchChatHistory, getChats } = useServicesStore();
+  const [isChatPending, startChat] = useTransition();
+  const [isChatHistoryPending, startSelectChat] = useTransition();
+  const {
+    fetchChats,
+    fetchChatHistory,
+    getChats,
+    setChatLoading,
+    setChatHistoryLoading,
+    getChatLoading,
+    setSelectedChat,
+    getSelectedChat,
+  } = useServicesStore();
 
   useEffect(() => {
-    startTransition(async () => {
+    startChat(async () => {
       await fetchChats();
     });
   }, []);
 
-  function selectChat(chatData: TChatHistoryRequest) {
+  useEffect(() => {
+    setChatLoading(isChatPending);
+    setChatHistoryLoading(isChatHistoryPending);
+  }, [isChatPending, isChatHistoryPending]);
+
+  function selectChat(chatData: TChatHistoryRequest, chat: TChat) {
     startSelectChat(async () => {
       await fetchChatHistory(chatData);
+      setSelectedChat(chat);
     });
   }
 
   return (
-    <aside className="w-[350px] border-r border-main-border">
-      <ul className="flex flex-col gap-y-[10px] px-[25px] py-[20px] max-h-[calc(100vh-55px)] overflow-y-auto">
-        {getChats().map(({ id, name, unreadCount }) => (
-          <li
-            className="flex shrink-0 items-center leading-[18px] justify-between bg-card-bg gap-x-[5px] px-[20px] py-[10px] rounded-md cursor-pointer overflow-hidden"
-            key={id}
-            onClick={() => selectChat({ chatId: id, count: 10 })}
-          >
-            <p className="truncate">{name ? name : id.split("@")[0]}</p>
-            {!!unreadCount && (
-              <span className="text-center bg-cta-color min-w-[18px] rounded-full overflow-hidden">
-                {unreadCount}
-              </span>
-            )}
-          </li>
-        ))}
-      </ul>
+    <aside className="relative w-[350px] border-r border-main-border">
+      {getChatLoading() ? (
+        <IconLoader className="text-cta-color absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+      ) : (
+        <ul className="flex flex-col gap-y-[10px] px-[25px] py-[20px] max-h-[calc(100vh-55px)] overflow-y-auto">
+          {getChats().map((chat) => (
+            <li
+              className={clsx(
+                "flex shrink-0 items-center leading-[18px] justify-between gap-x-[5px] px-[20px] py-[10px] rounded-md cursor-pointer overflow-hidden",
+                {
+                  ["bg-card-active-bg pointer-events-none"]:
+                    getSelectedChat()?.id === chat.id,
+                  ["bg-card-bg"]: getSelectedChat()?.id !== chat.id,
+                },
+              )}
+              key={chat.id}
+              onClick={() => selectChat({ chatId: chat.id, count: 100 }, chat)}
+            >
+              <p className="truncate">
+                {chat.name ? chat.name : chat.id.split("@")[0]}
+              </p>
+              {!!chat.unreadCount && (
+                <span className="text-center bg-cta-color min-w-[18px] rounded-full overflow-hidden">
+                  {chat.unreadCount}
+                </span>
+              )}
+            </li>
+          ))}
+        </ul>
+      )}
     </aside>
   );
 }

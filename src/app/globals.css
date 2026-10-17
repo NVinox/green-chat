@@ -3,6 +3,7 @@
 :root {
   --site-bg: #e6e6e6;
   --card-bg: #1a1a1a;
+  --card-active-bg: #2c2c2c;
   --message-bg: #005c4b;
   --text-main: #181818;
   --text-secondary: #383838;
@@ -23,6 +24,7 @@
   :root {
     --site-bg: #121212;
     --card-bg: #1a1a1a;
+    --card-active-bg: #2c2c2c;
     --message-bg: #005c4b;
     --text-main: #eeeeee;
     --text-secondary: #cccccc;
@@ -43,6 +45,7 @@
 @theme inline {
   --color-app-bg: var(--site-bg);
   --color-card-bg: var(--card-bg);
+  --color-card-active-bg: var(--card-active-bg);
   --color-message-bg: var(--message-bg);
 
   --color-text-main: var(--text-main);

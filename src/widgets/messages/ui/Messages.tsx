@@ -6,39 +6,67 @@ import { Form } from "@/shared/form";
 import { Textarea } from "@/shared/textarea";
 import { Button } from "@/shared/button";
 
+import { IconLoader } from "@/shared/icons";
 import { getTimeFromTimestamp } from "@/shared/lib/format/date";
 
 export default function Messages() {
-  const { getChatHistory } = useServicesStore();
+  const { getChatHistory, getChatHistoryLoading, getSelectedChat } =
+    useServicesStore();
 
-  return getChatHistory().length ? (
+  return getSelectedChat() ? (
     <div className="w-full flex flex-col">
-      <ul className="flex flex-col gap-y-[16px] mt-auto px-[25px] py-[20px] max-h-[calc(100vh-178px)] overflow-y-auto">
-        {getChatHistory().map(({ textMessage, type, timestamp }) => (
-          <li
-            className={clsx(
-              "flex flex-col gap-y-[8px] max-w-[200px] p-[10px] rounded-md bg-message-bg",
-              {
-                ["ml-auto"]: type === EHistoryMessageType.OUTGOING,
-              },
-            )}
-          >
-            <span className="font-medium">{textMessage}</span>
-            <span
-              className={clsx("text-tiny text-text-secondary", {
-                ["mr-auto"]: type === EHistoryMessageType.OUTGOING,
-                ["ml-auto"]: type === EHistoryMessageType.INCOMING,
-              })}
-            >
-              {getTimeFromTimestamp(timestamp)}
-            </span>
-          </li>
-        ))}
-      </ul>
+      {getChatHistoryLoading() ? (
+        <div className="grow flex items-center justify-center">
+          <IconLoader className="text-cta-color" />
+        </div>
+      ) : getChatHistory().length ? (
+        <ul className="flex flex-col gap-y-[16px] mt-auto px-[25px] py-[20px] max-h-[calc(100vh-178px)] overflow-y-auto">
+          {getChatHistory().map(
+            ({ idMessage, textMessage, type, timestamp }) => (
+              <li
+                key={idMessage}
+                className={clsx(
+                  "flex flex-col gap-y-[8px] max-w-[200px] p-[10px] rounded-md bg-message-bg",
+                  {
+                    ["ml-auto"]: type === EHistoryMessageType.OUTGOING,
+                  },
+                )}
+              >
+                <span className="font-medium">{textMessage}</span>
+                <span
+                  className={clsx("text-tiny text-text-secondary", {
+                    ["mr-auto"]: type === EHistoryMessageType.OUTGOING,
+                    ["ml-auto"]: type === EHistoryMessageType.INCOMING,
+                  })}
+                >
+                  {getTimeFromTimestamp(timestamp)}
+                </span>
+              </li>
+            ),
+          )}
+        </ul>
+      ) : (
+        <div className="w-full grow flex flex-col items-center justify-center">
+          <p className="title">История сообщений пуста. Отправьте сообщение.</p>
+        </div>
+      )}
 
-      <Form className="flex gap-x-[12px] px-[25px] py-[20px] border-t border-main-border bg-card-bg">
-        <Button type="button">Отправить</Button>
-        <Textarea label="Сообщение" rows={5} />
+      <Form
+        className={clsx(
+          "flex gap-x-[12px] px-[25px] py-[20px] border-t border-main-border bg-card-bg",
+          {
+            ["mt-auto"]: getChatHistoryLoading(),
+          },
+        )}
+      >
+        <Button type="button" disabled={getChatHistoryLoading()}>
+          Отправить
+        </Button>
+        <Textarea
+          label="Сообщение"
+          disabled={getChatHistoryLoading()}
+          rows={5}
+        />
       </Form>
     </div>
   ) : (

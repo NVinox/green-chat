@@ -36,7 +36,7 @@ export const ChatSchema = z.object({
 
 export const ChatHistoryRequestSchema = z.object({
   chatId: z.string(),
-  count: z.number().nonnegative(),
+  count: z.number().nonnegative().min(1).max(100),
 });
 
 export const ChatHistoryResponseSchema = z.object({

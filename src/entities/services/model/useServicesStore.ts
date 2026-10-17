@@ -12,11 +12,20 @@ import { useToastStore } from "@/shared/toast";
 interface IServicesStore {
   chats: TChat[];
   chatHistory: TChatHistoryResponse[];
+  selectedChat: TChat | null;
+  isChatLoading: boolean;
+  isChatHistoryLoading: boolean;
 
   setChats: (chats: TChat[]) => void;
   setChatHistory: (chatHistory: TChatHistoryResponse[]) => void;
+  setChatLoading: (isLoading: boolean) => void;
+  setChatHistoryLoading: (isLoading: boolean) => void;
+  setSelectedChat: (chat: TChat) => void;
   getChats: () => TChat[];
   getChatHistory: () => TChatHistoryResponse[];
+  getChatLoading: () => boolean;
+  getChatHistoryLoading: () => boolean;
+  getSelectedChat: () => TChat | null;
 
   fetchChats: () => Promise<void>;
   fetchChatHistory: (chatData: TChatHistoryRequest) => Promise<void>;
@@ -25,6 +34,9 @@ interface IServicesStore {
 const useServicesStore = create<IServicesStore>((set, get) => ({
   chats: [],
   chatHistory: [],
+  selectedChat: null,
+  isChatLoading: false,
+  isChatHistoryLoading: false,
 
   setChats(chats: TChat[]): void {
     set({ chats });
@@ -34,12 +46,36 @@ const useServicesStore = create<IServicesStore>((set, get) => ({
     set({ chatHistory });
   },
 
+  setChatLoading(isLoading: boolean): void {
+    set({ isChatLoading: isLoading });
+  },
+
+  setChatHistoryLoading(isLoading: boolean): void {
+    set({ isChatHistoryLoading: isLoading });
+  },
+
+  setSelectedChat(chat: TChat) {
+    set({ selectedChat: chat });
+  },
+
   getChats(): TChat[] {
     return get().chats;
   },
 
   getChatHistory(): TChatHistoryResponse[] {
     return get().chatHistory.toReversed();
+  },
+
+  getChatLoading(): boolean {
+    return get().isChatLoading;
+  },
+
+  getChatHistoryLoading(): boolean {
+    return get().isChatHistoryLoading;
+  },
+
+  getSelectedChat(): TChat | null {
+    return get().selectedChat;
   },
 
   async fetchChats(): Promise<void> {
