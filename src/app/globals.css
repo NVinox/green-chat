@@ -3,7 +3,9 @@
 :root {
   --site-bg: #e6e6e6;
   --card-bg: #1a1a1a;
+  --message-bg: #005c4b;
   --text-main: #181818;
+  --text-secondary: #383838;
   --border-main: #505050;
 
   --text-xs: 10px;
@@ -12,7 +14,7 @@
 
   --radius-md: 5px;
 
-  --cta-color: #229ed9;
+  --cta-color: #3b9702;
   --error: #dc2626;
   --success: #1ab80b;
 }
@@ -21,7 +23,9 @@
   :root {
     --site-bg: #121212;
     --card-bg: #1a1a1a;
+    --message-bg: #005c4b;
     --text-main: #eeeeee;
+    --text-secondary: #cccccc;
     --border-main: #424242;
 
     --text-xs: 10px;
@@ -30,7 +34,7 @@
 
     --radius-md: 5px;
 
-    --cta-color: #229ed9;
+    --cta-color: #3b9702;
     --error: #dc2626;
     --success: #1ab80b;
   }
@@ -39,8 +43,10 @@
 @theme inline {
   --color-app-bg: var(--site-bg);
   --color-card-bg: var(--card-bg);
+  --color-message-bg: var(--message-bg);
 
   --color-text-main: var(--text-main);
+  --color-text-secondary: var(--text-secondary);
   --color-error-text: var(--error);
   --color-success-text: var(--success);
 
