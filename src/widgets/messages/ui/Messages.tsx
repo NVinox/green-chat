@@ -1,17 +1,35 @@
+import { useTransition, type ChangeEvent } from "react";
 import clsx from "clsx";
 
 import { EHistoryMessageType, useServicesStore } from "@/entities/services";
+import { useDispatchStore } from "@/entities/dispatch";
 
 import { Form } from "@/shared/form";
 import { Textarea } from "@/shared/textarea";
 import { Button } from "@/shared/button";
-
 import { IconLoader } from "@/shared/icons";
 import { getTimeFromTimestamp } from "@/shared/lib/format/date";
 
 export default function Messages() {
   const { getChatHistory, getChatHistoryLoading, getSelectedChat } =
     useServicesStore();
+  const { setMessage, getMessage, sendMessage } = useDispatchStore();
+  const [, sendMessageTransition] = useTransition();
+
+  function changeMessage(e: ChangeEvent<HTMLTextAreaElement>) {
+    setMessage(e.target.value);
+  }
+
+  function clickSendMessage() {
+    const message = getMessage().trim();
+    const selectedChat = getSelectedChat();
+
+    if (message && selectedChat) {
+      sendMessageTransition(async () => {
+        await sendMessage({ chatId: selectedChat.id, message });
+      });
+    }
+  }
 
   return getSelectedChat() ? (
     <div className="w-full flex flex-col">
@@ -59,13 +77,20 @@ export default function Messages() {
           },
         )}
       >
-        <Button type="button" disabled={getChatHistoryLoading()}>
+        <Button
+          type="button"
+          disabled={getChatHistoryLoading()}
+          onClick={clickSendMessage}
+        >
           Отправить
         </Button>
         <Textarea
           label="Сообщение"
           disabled={getChatHistoryLoading()}
           rows={5}
+          maxLength={20_000}
+          onChange={changeMessage}
+          value={getMessage()}
         />
       </Form>
     </div>

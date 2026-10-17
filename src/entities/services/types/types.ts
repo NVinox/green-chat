@@ -76,6 +76,18 @@ export const ChatHistoryResponseSchema = z.object({
   isDeleted: z.boolean(),
 });
 
+export const ChatHistoryClientSchema = z.object({
+  idMessage: z.string(),
+  textMessage: z.string(),
+  time: z.string(),
+  type: z.enum([EHistoryMessageType.INCOMING, EHistoryMessageType.OUTGOING], {
+    error: () => ({
+      message: "Сообщение может быть входящим или исходящим",
+    }),
+  }),
+});
+
 export type TChat = z.infer<typeof ChatSchema>;
 export type TChatHistoryRequest = z.infer<typeof ChatHistoryRequestSchema>;
 export type TChatHistoryResponse = z.infer<typeof ChatHistoryResponseSchema>;
+export type TChatHistoryClient = z.infer<typeof ChatHistoryClientSchema>;
