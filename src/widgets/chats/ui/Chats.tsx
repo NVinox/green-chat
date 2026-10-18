@@ -36,16 +36,16 @@ export default function Chats() {
   function selectChat(chatData: TChatHistoryRequest, chat: TChat) {
     startSelectChat(async () => {
       await fetchChatHistory(chatData);
-      setSelectedChat(chat);
+      setSelectedChat({ id: chat.id, name: chat.name });
     });
   }
 
   return (
-    <aside className="relative w-[350px] border-r border-main-border">
+    <aside className="grow relative w-[350px] border-r border-main-border max-h-[calc(100vh-74px)] overflow-y-auto">
       {getChatLoading() ? (
         <IconLoader className="text-cta-color absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
       ) : (
-        <ul className="flex flex-col gap-y-[10px] px-[25px] py-[20px] max-h-[calc(100vh-55px)] overflow-y-auto">
+        <ul className="flex flex-col gap-y-[10px] px-[25px] py-[20px]">
           {getChats().map((chat) => (
             <li
               className={clsx(

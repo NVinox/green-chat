@@ -5,6 +5,8 @@ import type {
   TChat,
   TChatHistoryRequest,
   TChatHistoryResponse,
+  TCheckWhatsAppRequest,
+  TCheckWhatsAppResponse,
 } from "@/entities/services";
 
 import { privateApiInstance } from "@/shared/api";
@@ -26,6 +28,15 @@ export class ServicesAPI {
     return await privateApiInstance.post<TChatHistoryResponse[]>(
       `/waInstance${idInstance}/getChatHistory/${apiTokenInstance}`,
       { ...chatRequest },
+    );
+  }
+
+  static async checkWhatsApp(
+    data: TCheckWhatsAppRequest,
+  ): Promise<AxiosResponse<TCheckWhatsAppResponse>> {
+    return await privateApiInstance.post<TCheckWhatsAppResponse>(
+      `/waInstance${idInstance}/checkWhatsapp/${apiTokenInstance}`,
+      { ...data },
     );
   }
 }

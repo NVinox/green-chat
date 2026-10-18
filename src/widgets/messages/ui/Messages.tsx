@@ -61,7 +61,7 @@ export default function Messages() {
       }
     }
 
-    checkNotifications();
+    // checkNotifications();
 
     return () => {
       isMounted = false;
@@ -110,7 +110,7 @@ export default function Messages() {
       ) : messages.length ? (
         <>
           <ul
-            className="flex flex-col gap-y-[16px] mt-auto px-[25px] py-[20px] max-h-[calc(100vh-178px)] overflow-y-auto"
+            className="flex flex-col gap-y-[16px] mt-auto px-[25px] py-[20px] max-h-[calc(100vh-197px)] overflow-y-auto"
             ref={chatHistoryRef}
           >
             {messages.map(({ idMessage, textMessage, type, timestamp }) => (

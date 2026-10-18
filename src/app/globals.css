@@ -8,6 +8,7 @@
   --text-main: #181818;
   --text-secondary: #383838;
   --border-main: #505050;
+  --overlay-bg: rgba(0, 0, 0, 0.7);
 
   --text-xs: 10px;
   --text-base: 14px;
@@ -29,6 +30,7 @@
     --text-main: #eeeeee;
     --text-secondary: #cccccc;
     --border-main: #424242;
+    --overlay-bg: rgba(0, 0, 0, 0.7);
 
     --text-xs: 10px;
     --text-base: 14px;
@@ -47,6 +49,7 @@
   --color-card-bg: var(--card-bg);
   --color-card-active-bg: var(--card-active-bg);
   --color-message-bg: var(--message-bg);
+  --color-overlay-bg: var(--overlay-bg);
 
   --color-text-main: var(--text-main);
   --color-text-secondary: var(--text-secondary);

@@ -6,6 +6,10 @@ import {
   type TChatHistoryResponse,
   type THistoryMessageType,
   type TChatHistoryClient,
+  type TCheckWhatsAppRequest,
+  type TCheckWhatsAppResponse,
+  type ICheckWhatsAppErrorResponse,
+  type ISelectedChat,
   EHistoryMessageType,
   EMessageType,
   EChatType,
@@ -13,6 +17,8 @@ import {
   ChatHistoryRequestSchema,
   ChatHistoryResponseSchema,
   ChatHistoryClientSchema,
+  CheckWhatsAppRequestSchema,
+  CheckWhatsAppResponseSchema,
 } from "@/entities/services/types/types";
 import { ServicesAPI } from "@/entities/services/api/servicesApi";
 import useServicesStore from "@/entities/services/model/useServicesStore";
@@ -25,6 +31,10 @@ export {
   type TChatHistoryResponse,
   type THistoryMessageType,
   type TChatHistoryClient,
+  type TCheckWhatsAppRequest,
+  type TCheckWhatsAppResponse,
+  type ICheckWhatsAppErrorResponse,
+  type ISelectedChat,
   EHistoryMessageType,
   EMessageType,
   EChatType,
@@ -32,6 +42,8 @@ export {
   ChatHistoryRequestSchema,
   ChatHistoryResponseSchema,
   ChatHistoryClientSchema,
+  CheckWhatsAppRequestSchema,
+  CheckWhatsAppResponseSchema,
   ServicesAPI,
   useServicesStore,
 };

@@ -87,7 +87,40 @@ export const ChatHistoryClientSchema = z.object({
   }),
 });
 
+export const CheckWhatsAppRequestSchema = z.object({
+  phoneNumber: z
+    .string()
+    .min(11, { message: "Номер телефона должен содержать 11 знаков" })
+    .regex(/^\d+$/, {
+      message:
+        "Номер телефона должен состоять только из цифр (без +, пробелов и дефисов)",
+    }),
+  force: z.boolean().optional(),
+});
+
+export const CheckWhatsAppResponseSchema = z.object({
+  existsWhatsapp: z.boolean(),
+  chatId: z.string(),
+  username: z.string(),
+  phoneNumber: z.string(),
+  fromCache: z.boolean(),
+});
+
+export interface ICheckWhatsAppErrorResponse {
+  phoneNumber?: string;
+  force?: string;
+}
+
+export interface ISelectedChat {
+  id: string;
+  name: string;
+}
+
 export type TChat = z.infer<typeof ChatSchema>;
 export type TChatHistoryRequest = z.infer<typeof ChatHistoryRequestSchema>;
 export type TChatHistoryResponse = z.infer<typeof ChatHistoryResponseSchema>;
 export type TChatHistoryClient = z.infer<typeof ChatHistoryClientSchema>;
+export type TCheckWhatsAppRequest = z.infer<typeof CheckWhatsAppRequestSchema>;
+export type TCheckWhatsAppResponse = z.infer<
+  typeof CheckWhatsAppResponseSchema
+>;
