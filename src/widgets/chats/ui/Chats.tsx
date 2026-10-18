@@ -49,11 +49,12 @@ export default function Chats() {
           {getChats().map((chat) => (
             <li
               className={clsx(
-                "flex shrink-0 items-center leading-[18px] justify-between gap-x-[5px] px-[20px] py-[10px] rounded-md cursor-pointer overflow-hidden",
+                "flex shrink-0 items-center transition-base leading-[18px] justify-between gap-x-[5px] px-[20px] py-[10px] rounded-md cursor-pointer overflow-hidden",
                 {
                   ["bg-card-active-bg pointer-events-none"]:
                     getSelectedChat()?.id === chat.id,
-                  ["bg-card-bg"]: getSelectedChat()?.id !== chat.id,
+                  ["bg-card-bg hover:bg-card-active-bg"]:
+                    getSelectedChat()?.id !== chat.id,
                 },
               )}
               key={chat.id}

@@ -13,6 +13,7 @@ export const EHistoryMessageType = {
 export const EMessageType = {
   EXTENDED_TEXT_MESSAGE: "extendedTextMessage",
   TEXT_MESSAGE: "textMessage",
+  DELETED_MESSAGE: "deletedMessage",
 } as const;
 
 export type TChatType = (typeof EChatType)[keyof typeof EChatType];
@@ -48,7 +49,11 @@ export const ChatHistoryResponseSchema = z.object({
   idMessage: z.string(),
   timestamp: z.number(),
   typeMessage: z.enum(
-    [EMessageType.TEXT_MESSAGE, EMessageType.EXTENDED_TEXT_MESSAGE],
+    [
+      EMessageType.TEXT_MESSAGE,
+      EMessageType.EXTENDED_TEXT_MESSAGE,
+      EMessageType.DELETED_MESSAGE,
+    ],
     {
       error: () => ({
         message: "Неопознанный тип сообщения",
