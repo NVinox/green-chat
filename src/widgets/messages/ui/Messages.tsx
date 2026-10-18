@@ -1,8 +1,9 @@
-import { useTransition, type ChangeEvent } from "react";
+import { useEffect, useTransition, type ChangeEvent } from "react";
 import clsx from "clsx";
 
 import { EHistoryMessageType, useServicesStore } from "@/entities/services";
 import { useDispatchStore } from "@/entities/dispatch";
+import { ReceiptService } from "@/entities/receipt";
 
 import { Form } from "@/shared/form";
 import { Textarea } from "@/shared/textarea";
@@ -11,10 +12,54 @@ import { IconLoader } from "@/shared/icons";
 import { getTimeFromTimestamp } from "@/shared/lib/format/date";
 
 export default function Messages() {
-  const { getChatHistory, getChatHistoryLoading, getSelectedChat } =
-    useServicesStore();
+  const {
+    getChatHistory,
+    getChatHistoryLoading,
+    getSelectedChat,
+    fetchChatHistory,
+    fetchChats,
+  } = useServicesStore();
   const { setMessage, getMessage, sendMessage } = useDispatchStore();
   const [, sendMessageTransition] = useTransition();
+
+  useEffect(() => {
+    let isMounted = true;
+    let timerId: number | undefined = undefined;
+
+    async function checkNotifications() {
+      const selectedChat = getSelectedChat();
+
+      try {
+        if (selectedChat) {
+          const notification = await ReceiptService.receiveNotification();
+
+          if (notification) {
+            if (notification.body.senderData.chatId === selectedChat.id) {
+              await fetchChatHistory({ chatId: selectedChat.id, count: 100 });
+            }
+
+            await fetchChats();
+            await ReceiptService.deleteNotification({
+              receiptId: notification.receiptId,
+            });
+          }
+        }
+      } catch (err) {
+        console.log(err);
+      } finally {
+        if (isMounted) {
+          timerId = setTimeout(checkNotifications, 3000);
+        }
+      }
+    }
+
+    checkNotifications();
+
+    return () => {
+      isMounted = false;
+      clearTimeout(timerId);
+    };
+  }, []);
 
   function changeMessage(e: ChangeEvent<HTMLTextAreaElement>) {
     setMessage(e.target.value);

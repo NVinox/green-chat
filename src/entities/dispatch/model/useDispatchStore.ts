@@ -35,6 +35,13 @@ const useDispatchStore = create<IDispatchStore>((set, get) => ({
     try {
       if (selectedChat) {
         await DispatchAPI.sendMessage(message);
+        setTimeout(async () => {
+          await servicesStore.fetchChatHistory({
+            chatId: selectedChat.id,
+            count: 100,
+          });
+          await servicesStore.fetchChats();
+        }, 2000);
         get().clear();
       }
     } catch (err) {
