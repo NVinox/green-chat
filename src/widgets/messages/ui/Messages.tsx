@@ -1,4 +1,10 @@
-import { useEffect, useTransition, type ChangeEvent } from "react";
+import {
+  useEffect,
+  useRef,
+  useTransition,
+  type ChangeEvent,
+  type KeyboardEvent,
+} from "react";
 import clsx from "clsx";
 
 import { EHistoryMessageType, useServicesStore } from "@/entities/services";
@@ -21,6 +27,8 @@ export default function Messages() {
   } = useServicesStore();
   const { setMessage, getMessage, sendMessage } = useDispatchStore();
   const [, sendMessageTransition] = useTransition();
+  const messages = getChatHistory();
+  const chatHistoryRef = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -48,7 +56,7 @@ export default function Messages() {
         console.log(err);
       } finally {
         if (isMounted) {
-          timerId = setTimeout(checkNotifications, 3000);
+          timerId = setTimeout(checkNotifications, 0);
         }
       }
     }
@@ -60,6 +68,16 @@ export default function Messages() {
       clearTimeout(timerId);
     };
   }, []);
+
+  useEffect(() => {
+    const container = chatHistoryRef.current;
+    if (!container) return;
+
+    container.scrollTo({
+      top: container.scrollHeight,
+      behavior: "auto",
+    });
+  }, [messages]);
 
   function changeMessage(e: ChangeEvent<HTMLTextAreaElement>) {
     setMessage(e.target.value);
@@ -76,16 +94,26 @@ export default function Messages() {
     }
   }
 
+  function downSendMessage(e: KeyboardEvent<HTMLTextAreaElement>) {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      clickSendMessage();
+    }
+  }
+
   return getSelectedChat() ? (
     <div className="w-full flex flex-col">
       {getChatHistoryLoading() ? (
         <div className="grow flex items-center justify-center">
           <IconLoader className="text-cta-color" />
         </div>
-      ) : getChatHistory().length ? (
-        <ul className="flex flex-col gap-y-[16px] mt-auto px-[25px] py-[20px] max-h-[calc(100vh-178px)] overflow-y-auto">
-          {getChatHistory().map(
-            ({ idMessage, textMessage, type, timestamp }) => (
+      ) : messages.length ? (
+        <>
+          <ul
+            className="flex flex-col gap-y-[16px] mt-auto px-[25px] py-[20px] max-h-[calc(100vh-178px)] overflow-y-auto"
+            ref={chatHistoryRef}
+          >
+            {messages.map(({ idMessage, textMessage, type, timestamp }) => (
               <li
                 key={idMessage}
                 className={clsx(
@@ -105,9 +133,9 @@ export default function Messages() {
                   {getTimeFromTimestamp(timestamp)}
                 </span>
               </li>
-            ),
-          )}
-        </ul>
+            ))}
+          </ul>
+        </>
       ) : (
         <div className="w-full grow flex flex-col items-center justify-center">
           <p className="title">История сообщений пуста. Отправьте сообщение.</p>
@@ -135,6 +163,7 @@ export default function Messages() {
           rows={5}
           maxLength={20_000}
           onChange={changeMessage}
+          onKeyDown={downSendMessage}
           value={getMessage()}
         />
       </Form>
