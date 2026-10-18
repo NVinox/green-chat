@@ -16,7 +16,7 @@ export default function Toast() {
 
   return createPortal(
     <div
-      className="fixed left-1/2 -translate-x-1/2 bottom-[20px] py-[10px] w-full bg-card-bg"
+      className="fixed right-[20px] bottom-[20px] py-[10px] rounded-md min-w-xs bg-card-bg z-200 overflow-hidden"
       onClick={close}
     >
       <div
