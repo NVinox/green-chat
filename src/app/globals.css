@@ -17,6 +17,7 @@
   --radius-md: 5px;
 
   --cta-color: #3b9702;
+  --secondary-color: #4b4b4b;
   --error: #dc2626;
   --success: #1ab80b;
 }
@@ -39,6 +40,7 @@
     --radius-md: 5px;
 
     --cta-color: #3b9702;
+    --secondary-color: #4b4b4b;
     --error: #dc2626;
     --success: #1ab80b;
   }
@@ -60,6 +62,7 @@
   --color-error-border: var(--error);
 
   --color-cta-color: var(--cta-color);
+  --color-secondary-color: var(--secondary-color);
 }
 
 @utility title {

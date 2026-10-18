@@ -1,5 +1,4 @@
 import type { AxiosResponse } from "axios";
-import Cookies from "js-cookie";
 
 import type {
   TDeleteNotificationRequest,
@@ -7,17 +6,16 @@ import type {
   TReceiveNotificationRequest,
   TReceiveNotificationResponse,
 } from "@/entities/receipt";
+import { AccountService } from "@/entities/account";
 
 import { privateApiInstance } from "@/shared/api";
-import { API_TOKEN_INSTANCE_KEY, ID_INSTANCE_KEY } from "@/shared/constants";
-
-const idInstance = Cookies.get(ID_INSTANCE_KEY);
-const apiTokenInstance = Cookies.get(API_TOKEN_INSTANCE_KEY);
 
 export class ReceiptAPI {
   static async receiveNotification(
     params?: TReceiveNotificationRequest,
   ): Promise<AxiosResponse<TReceiveNotificationResponse>> {
+    const { idInstance, apiTokenInstance } = AccountService.getCredentials();
+
     return await privateApiInstance.get<TReceiveNotificationResponse>(
       `/waInstance${idInstance}/receiveNotification/${apiTokenInstance}`,
       { params: { ...params } },
@@ -27,6 +25,8 @@ export class ReceiptAPI {
   static async deleteNotification(
     data: TDeleteNotificationRequest,
   ): Promise<AxiosResponse<TDeleteNotificationResponse>> {
+    const { idInstance, apiTokenInstance } = AccountService.getCredentials();
+
     return await privateApiInstance.delete<TDeleteNotificationResponse>(
       `/waInstance${idInstance}/deleteNotification/${apiTokenInstance}/${data.receiptId}`,
     );

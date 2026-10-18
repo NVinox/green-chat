@@ -61,7 +61,7 @@ export default function Messages() {
       }
     }
 
-    // checkNotifications();
+    checkNotifications();
 
     return () => {
       isMounted = false;
