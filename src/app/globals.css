@@ -1,0 +1,69 @@
+@import "tailwindcss";
+
+:root {
+  --site-bg: #121212;
+  --card-bg: #1a1a1a;
+  --card-active-bg: #2c2c2c;
+  --message-bg: #005c4b;
+  --text-main: #eeeeee;
+  --text-secondary: #cccccc;
+  --border-main: #424242;
+  --overlay-bg: rgba(0, 0, 0, 0.7);
+
+  --text-xs: 10px;
+  --text-base: 14px;
+  --text-xl: 22px;
+
+  --radius-md: 5px;
+
+  --cta-color: #3b9702;
+  --secondary-color: #4b4b4b;
+  --error: #dc2626;
+  --success: #1ab80b;
+}
+
+@theme inline {
+  --color-app-bg: var(--site-bg);
+  --color-card-bg: var(--card-bg);
+  --color-card-active-bg: var(--card-active-bg);
+  --color-message-bg: var(--message-bg);
+  --color-overlay-bg: var(--overlay-bg);
+
+  --color-text-main: var(--text-main);
+  --color-text-secondary: var(--text-secondary);
+  --color-error-text: var(--error);
+  --color-success-text: var(--success);
+
+  --color-main-border: var(--border-main);
+  --color-error-border: var(--error);
+
+  --color-cta-color: var(--cta-color);
+  --color-secondary-color: var(--secondary-color);
+}
+
+@utility title {
+  @apply text-xl font-medium leading-none;
+}
+
+@utility text-normal {
+  @apply text-base font-normal leading-none;
+}
+
+@utility text-tiny {
+  @apply text-xs font-normal leading-none;
+}
+
+@utility transition-base {
+  @apply transition-all duration-200 ease-in-out;
+}
+
+body {
+  background-color: var(--site-bg);
+  scrollbar-gutter: stable;
+}
+
+.root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
