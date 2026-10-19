@@ -7,7 +7,11 @@ import {
 } from "react";
 import clsx from "clsx";
 
-import { EHistoryMessageType, useServicesStore } from "@/entities/services";
+import {
+  EHistoryMessageType,
+  EMessageType,
+  useServicesStore,
+} from "@/entities/services";
 import { useDispatchStore } from "@/entities/dispatch";
 import { ReceiptService } from "@/entities/receipt";
 
@@ -113,27 +117,33 @@ export default function Messages() {
             className="flex flex-col gap-y-[16px] mt-auto px-[25px] py-[20px] max-h-[calc(100vh-197px)] overflow-y-auto"
             ref={chatHistoryRef}
           >
-            {messages.map(({ idMessage, textMessage, type, timestamp }) => (
-              <li
-                key={idMessage}
-                className={clsx(
-                  "flex flex-col gap-y-[8px] max-w-[200px] p-[10px] rounded-md bg-message-bg",
-                  {
-                    ["ml-auto"]: type === EHistoryMessageType.OUTGOING,
-                  },
-                )}
-              >
-                <span className="font-medium">{textMessage}</span>
-                <span
-                  className={clsx("text-tiny text-text-secondary", {
-                    ["mr-auto"]: type === EHistoryMessageType.OUTGOING,
-                    ["ml-auto"]: type === EHistoryMessageType.INCOMING,
-                  })}
-                >
-                  {getTimeFromTimestamp(timestamp)}
-                </span>
-              </li>
-            ))}
+            {messages.map(
+              ({ idMessage, textMessage, type, timestamp, typeMessage }) => {
+                if (typeMessage !== EMessageType.DELETED_MESSAGE) {
+                  return (
+                    <li
+                      key={idMessage}
+                      className={clsx(
+                        "flex flex-col gap-y-[8px] max-w-[200px] p-[10px] rounded-md bg-message-bg",
+                        {
+                          ["ml-auto"]: type === EHistoryMessageType.OUTGOING,
+                        },
+                      )}
+                    >
+                      <span className="font-medium">{textMessage}</span>
+                      <span
+                        className={clsx("text-tiny text-text-secondary", {
+                          ["mr-auto"]: type === EHistoryMessageType.OUTGOING,
+                          ["ml-auto"]: type === EHistoryMessageType.INCOMING,
+                        })}
+                      >
+                        {getTimeFromTimestamp(timestamp)}
+                      </span>
+                    </li>
+                  );
+                }
+              },
+            )}
           </ul>
         </>
       ) : (

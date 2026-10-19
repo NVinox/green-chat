@@ -11,7 +11,7 @@ export default function Modal() {
 
   return createPortal(
     <div
-      className="fixed flex items-center justify-center z-1000 top-0 left-0 h-screen w-screen bg-overlay-bg backdrop-blur-[4px]"
+      className="fixed flex items-center justify-center z-100 top-0 left-0 h-screen w-screen bg-overlay-bg backdrop-blur-[4px]"
       onClick={closeModal}
     >
       <div className="w-full max-w-lg" onClick={(e) => e.stopPropagation()}>
